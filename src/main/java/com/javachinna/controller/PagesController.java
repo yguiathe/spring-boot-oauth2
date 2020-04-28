@@ -2,6 +2,7 @@
 package com.javachinna.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -81,7 +82,7 @@ public class PagesController {
 	}
 
 	@GetMapping({ "/", "/home" })
-	public ModelAndView home(@RequestParam(value = "view", required = false) String view) {
+	public ModelAndView home(@RequestParam(value = "view", required = false) String view, Principal principal) {
 		logger.info("Entering home page");
 		ModelAndView model = new ModelAndView("home");
 		model.addObject("title", "Home");

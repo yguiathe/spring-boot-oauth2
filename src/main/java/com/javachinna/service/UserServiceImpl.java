@@ -50,11 +50,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(value = "transactionManager")
-	public User registerNewUser(final UserRegistrationForm userRegistrationForm) throws UserAlreadyExistAuthenticationException {
+	public User registerNewUser(final UserRegistrationForm userRegistrationForm)
+			throws UserAlreadyExistAuthenticationException {
 		if (userRegistrationForm.getUserID() != null && userRepository.existsById(userRegistrationForm.getUserID())) {
-			throw new UserAlreadyExistAuthenticationException("User with User id " + userRegistrationForm.getUserID() + " already exist");
+			throw new UserAlreadyExistAuthenticationException(
+					"User with User id " + userRegistrationForm.getUserID() + " already exist");
 		} else if (userRepository.existsByEmail(userRegistrationForm.getEmail())) {
-			throw new UserAlreadyExistAuthenticationException("User with email id " + userRegistrationForm.getEmail() + " already exist");
+			throw new UserAlreadyExistAuthenticationException(
+					"User with email id " + userRegistrationForm.getEmail() + " already exist");
 		}
 		User user = buildUser(userRegistrationForm);
 		Date now = Calendar.getInstance().getTime();
@@ -68,6 +71,9 @@ public class UserServiceImpl implements UserService {
 	private User buildUser(final UserRegistrationForm formDTO) {
 		User user = new User();
 		user.setDisplayName(formDTO.getDisplayName());
+		user.setFirstName(formDTO.getFirstName());
+		user.setLastName(formDTO.getLastName());
+		user.setImgUrl(formDTO.getImgUrl());
 		user.setEmail(formDTO.getEmail());
 		user.setPassword(passwordEncoder.encode(formDTO.getPassword()));
 		final HashSet<Role> roles = new HashSet<Role>();
@@ -86,7 +92,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) {
+	public LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken,
+			OidcUserInfo userInfo) {
 		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId, attributes);
 		if (StringUtils.isEmpty(oAuth2UserInfo.getName())) {
 			throw new OAuth2AuthenticationProcessingException("Name not found from OAuth2 provider");
@@ -96,9 +103,11 @@ public class UserServiceImpl implements UserService {
 		UserRegistrationForm userDetails = toUserRegistrationObject(registrationId, oAuth2UserInfo);
 		User user = findUserByEmail(oAuth2UserInfo.getEmail());
 		if (user != null) {
-			if (!user.getProvider().equals(registrationId) && !user.getProvider().equals(SocialProvider.LOCAL.getProviderType())) {
+			if (!user.getProvider().equals(registrationId)
+					&& !user.getProvider().equals(SocialProvider.LOCAL.getProviderType())) {
 				throw new OAuth2AuthenticationProcessingException(
-						"Looks like you're signed up with " + user.getProvider() + " account. Please use your " + user.getProvider() + " account to login.");
+						"Looks like you're signed up with " + user.getProvider() + " account. Please use your "
+								+ user.getProvider() + " account to login.");
 			}
 			user = updateExistingUser(user, oAuth2UserInfo);
 		} else {
@@ -114,7 +123,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private UserRegistrationForm toUserRegistrationObject(String registrationId, OAuth2UserInfo oAuth2UserInfo) {
-		return UserRegistrationForm.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addDisplayName(oAuth2UserInfo.getName()).addEmail(oAuth2UserInfo.getEmail())
+		return UserRegistrationForm.getBuilder().addProviderUserID(oAuth2UserInfo.getId())
+				.addDisplayName(oAuth2UserInfo.getName()).addFirstName(oAuth2UserInfo.getFirstName())
+				.addLastName(oAuth2UserInfo.getLastName()).addEmail(oAuth2UserInfo.getEmail())
+				.addImgUrl(oAuth2UserInfo.getImageUrl())
 				.addSocialProvider(GeneralUtils.toSocialProvider(registrationId)).addPassword("changeit").build();
 	}
 }

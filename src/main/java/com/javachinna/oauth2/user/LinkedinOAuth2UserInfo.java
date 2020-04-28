@@ -17,6 +17,17 @@ public class LinkedinOAuth2UserInfo extends OAuth2UserInfo {
 	public String getName() {
 		return ((String) attributes.get("localizedFirstName")).concat(" ").concat((String) attributes.get("localizedLastName"));
 	}
+	
+	@Override
+	public String getFirstName() {
+		return (String) attributes.get("localizedFirstName");
+	}
+	
+	@Override
+	public String getLastName() {
+		return (String) attributes.get("localizedLastName");
+	}
+
 
 	@Override
 	public String getEmail() {

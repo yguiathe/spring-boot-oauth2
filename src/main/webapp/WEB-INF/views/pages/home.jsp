@@ -11,6 +11,8 @@
 	<div class="container">
 		<sec:authentication property="principal.user" var="currentUser" scope="session" />
 		<h1>Welcome ${currentUser.displayName} | <a href="<c:url value='/logout'/>">Logout</a></h1>
+		<hr>
+		<img alt="" src="${currentUser.imgUrl}">
 	</div>
 </body>
 </html>

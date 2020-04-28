@@ -18,6 +18,12 @@ public class UserRegistrationForm {
 
 	@NotEmpty
 	private String displayName;
+	
+	private String firstName;
+	
+	private String lastName;
+	
+	private String imgUrl;
 
 	@NotEmpty
 	private String email;
@@ -43,9 +49,12 @@ public class UserRegistrationForm {
 	 * @param password
 	 * @param socialProvider
 	 */
-	public UserRegistrationForm(String providerUserId, String displayName, String email, String password, SocialProvider socialProvider) {
+	public UserRegistrationForm(String providerUserId, String displayName, String firstName, String lastName, String imgUrl, String email, String password, SocialProvider socialProvider) {
 		this.providerUserId = providerUserId;
 		this.displayName = displayName;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.imgUrl = imgUrl;
 		this.email = email;
 		this.password = password;
 		this.socialProvider = socialProvider;
@@ -103,6 +112,30 @@ public class UserRegistrationForm {
 		this.providerUserId = providerUserId;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public String getMatchingPassword() {
 		return matchingPassword;
 	}
@@ -117,6 +150,9 @@ public class UserRegistrationForm {
 		private String email;
 		private String password;
 		private SocialProvider socialProvider;
+		private String firstName;
+		private String lastName;
+		private String imgUrl;
 
 		public Builder addProviderUserID(final String userID) {
 			this.providerUserID = userID;
@@ -125,6 +161,21 @@ public class UserRegistrationForm {
 
 		public Builder addDisplayName(final String displayName) {
 			this.displayName = displayName;
+			return this;
+		}
+		
+		public Builder addFirstName(final String firstName) {
+			this.firstName = firstName;
+			return this;
+		}
+		
+		public Builder addLastName(final String lastName) {
+			this.lastName = lastName;
+			return this;
+		}
+		
+		public Builder addImgUrl(final String imgUrl) {
+			this.imgUrl = imgUrl;
 			return this;
 		}
 
@@ -144,7 +195,8 @@ public class UserRegistrationForm {
 		}
 
 		public UserRegistrationForm build() {
-			return new UserRegistrationForm(providerUserID, displayName, email, password, socialProvider);
+			return new UserRegistrationForm(providerUserID, displayName, firstName, lastName, imgUrl, email, password, socialProvider);
 		}
 	}
+
 }

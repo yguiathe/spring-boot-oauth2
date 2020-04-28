@@ -14,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -44,6 +43,12 @@ public class User implements Serializable {
 
 	@Column(name = "DISPLAY_NAME")
 	private String displayName;
+	
+	@Column(name = "FIRST_NAME")
+	private String firstName;
+	
+	@Column(name = "LAST_NAME")
+	private String lastName;
 
 	@Column(name = "created_date", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,6 +60,9 @@ public class User implements Serializable {
 	private String password;
 
 	private String provider;
+	
+	@Column(name = "IMG_URL")
+	private String imgUrl;
 
 	// bi-directional many-to-many association to Role
 	@JsonIgnore
@@ -144,5 +152,29 @@ public class User implements Serializable {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 }

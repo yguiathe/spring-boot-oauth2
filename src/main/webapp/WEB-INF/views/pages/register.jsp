@@ -29,6 +29,14 @@
 											<form:errors path="displayName" class="control-label has-error" />
 										</div>
 										<div class="form-group">
+											<form:input type="text" class="form-control" id="firstName" path="firstName" value="" placeholder="Enter first name" />
+											<form:errors path="firstName" class="control-label has-error" />
+										</div>
+										<div class="form-group">
+											<form:input type="text" class="form-control" id="lastName" path="lastName" value="" placeholder="Enter last name" />
+											<form:errors path="lastName" class="control-label has-error" />
+										</div>
+										<div class="form-group">
 											<form:input type="email" class="form-control" id="email" path="email" value="" placeholder="Enter email address" />
 											<form:errors path="email" class="control-label has-error" />
 										</div>
